@@ -16,7 +16,7 @@ app.use(cors({ origin: ['http://localhost:5173', 'https://zoom-it-mern-stack-fro
 app.use('/api', router);
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World!');
+  res.send('Skl bg this is Ecommerce app');
 });
 app.use(globalErrorHandler);
 app.use(notFound);

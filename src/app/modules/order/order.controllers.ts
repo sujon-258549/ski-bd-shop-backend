@@ -48,6 +48,16 @@ const getAllOrders = catchAsync(async (req, res) => {
     meta: result.meta,
   });
 });
+const getMyOrders = catchAsync(async (req, res) => {
+  const result = await orderServices.getMyOrdersDB(req.query, req?.user);
+  sendSuccess(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "My Orders fetched successfully",
+    data: result.data,
+    meta: result.meta,
+  });
+});
 
 // ✅ Get Single Order by ID
 const getOrderById = catchAsync(async (req, res) => {
@@ -67,4 +77,5 @@ export const orderController = {
   deleteOrder,
   getAllOrders,
   getOrderById,
+  getMyOrders
 };

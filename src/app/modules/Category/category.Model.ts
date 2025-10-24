@@ -9,16 +9,10 @@ const CategorySchema = new Schema<TCategory>(
       trim: true,
       unique: true,
     },
-    slug: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-      unique: true,
-    },
-    image: {
+    description: {
       type: String,
     },
+    
   },
 
   {

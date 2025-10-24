@@ -7,10 +7,8 @@ export const createCategoryValidationSchema = z.object({
       .string()
       .min(1, "Category name is required")
       .max(100, "Category name cannot exceed 100 characters"),
-    slug: z
+    description: z
       .string()
-      .min(1, "Slug is required")
-      .max(100, "Slug cannot exceed 100 characters"),
   }),
 });
 
@@ -21,13 +19,6 @@ export const updateCategoryValidationSchema = z.object({
       .string()
       .min(1, "Category name is required")
       .max(100, "Category name cannot exceed 100 characters")
-      .optional(),
-    image: z
-      .string().optional(),
-    slug: z
-      .string()
-      .min(1, "Slug is required")
-      .max(100, "Slug cannot exceed 100 characters")
       .optional(),
   }),
 });

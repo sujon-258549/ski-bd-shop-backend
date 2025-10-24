@@ -8,45 +8,35 @@ const ProductSchema = new Schema<TProduct>(
       required: true,
       trim: true,
     },
-    slug: {
+    photo: {
       type: String,
       required: true,
     },
-    photos: [
-      {
-        type: String,
-        required: true,
-      },
-    ],
     description: {
       type: String,
       required: true,
+      trim: true,
     },
     price: {
       type: Number,
       required: true,
       min: 0,
     },
-    discount: {
+    stock: {
       type: Number,
-      default: 0,
+      required: true,
       min: 0,
     },
-    stockStatus: {
-      type: Boolean,
-      default: true, // true = in stock, false = out of stock
+
+    category: {
+      type: Schema.Types.ObjectId,
+      ref: "Category",
+      required: true,
     },
-    status: {
+    brand: {
       type: String,
-      enum: ["active", "inactive"],
-      default: "active",
+      trim: true,
     },
-    categories: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Category",
-      },
-    ],
   },
   {
     timestamps: true, // adds createdAt & updatedAt
@@ -54,3 +44,4 @@ const ProductSchema = new Schema<TProduct>(
 );
 
 export const Product = model<TProduct>("Product", ProductSchema);
+

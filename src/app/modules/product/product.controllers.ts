@@ -1,14 +1,14 @@
-import sendSuccess, { sendSuccessNoData } from "../utility/send-seccess";
-import { productServices } from "./product.Servises";
-import httpStatus from "http-status";
-import catchAsync from "../utility/catchAsync";
+import sendSuccess, { sendSuccessNoData } from '../utility/send-seccess';
+import { productServices } from './product.Servises';
+import httpStatus from 'http-status';
+import catchAsync from '../utility/catchAsync';
 
 // ✅ Create Product
 const createProduct = catchAsync(async (req, res) => {
   const result = await productServices.createProductDB(req.body);
   sendSuccess(res, {
     success: true,
-    message: "Product created successfully",
+    message: 'Product created successfully',
     statusCode: httpStatus.CREATED,
     data: result,
   });
@@ -21,19 +21,19 @@ const updateProduct = catchAsync(async (req, res) => {
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Product updated successfully",
-    data: result
+    message: 'Product updated successfully',
+    data: result,
   });
 });
 
 // ✅ Delete Product
 const deleteProduct = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await productServices.deleteProductDB(id);
+  await productServices.deleteProductDB(id);
   sendSuccessNoData(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Product deleted successfully",
+    message: 'Product deleted successfully',
   });
 });
 
@@ -43,7 +43,7 @@ const getAllProducts = catchAsync(async (req, res) => {
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Products fetched successfully",
+    message: 'Products fetched successfully',
     data: result.data,
     meta: result.meta,
   });
@@ -56,7 +56,7 @@ const getProductById = catchAsync(async (req, res) => {
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Product fetched successfully",
+    message: 'Product fetched successfully',
     data: result,
   });
 });

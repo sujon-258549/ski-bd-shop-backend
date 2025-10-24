@@ -1,4 +1,4 @@
-import { Schema, model, Types } from "mongoose";
+import { Schema, model } from "mongoose";
 import { TOrder } from "./order.interfaces";
 const AddressSchema = new Schema({
   address: { type: String, required: true },
@@ -13,7 +13,6 @@ const ProductItemSchema = new Schema({
 // Order Schema
 const OrderSchema = new Schema<TOrder>(
   {
-    orderId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
     product: [ProductItemSchema],
     address: AddressSchema,
     totalAmount: { type: Number, required: true },

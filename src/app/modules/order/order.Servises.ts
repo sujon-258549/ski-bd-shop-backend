@@ -1,3 +1,4 @@
+
 import AppError from "../../Error/Apperror";
 import QueryBalder from "../../QueryBalder/querybalder";
 import { User } from "../User/User.mole";
@@ -49,7 +50,7 @@ const deleteOrderDB = async (id: string) => {
 
 // ✅ Get All Orders (filters, search, pagination)
 const getAllOrdersDB = async (query: Record<string, unknown>) => {
-  const orderQuery = new QueryBalder(Order.find(), query)
+  const orderQuery = new QueryBalder(Order.find().populate('product'), query)
     .search(searchOrderFields)
     .filter()
     .sort()
@@ -60,6 +61,31 @@ const getAllOrdersDB = async (query: Record<string, unknown>) => {
   const data = await orderQuery.modelQuery;
   return { meta, data };
 };
+const getMyOrdersDB = async (query: Record<string, unknown>, user: any) => {
+  const existUser = await User.findOne({ email: user.email });
+
+  console.log("User =>", existUser);
+
+  if (!existUser) {
+    throw new AppError(httpStatus.UNAUTHORIZED, "User not authorized");
+  }
+
+  // orderId দিয়ে order খোঁজা
+  const orderQuery = new QueryBalder(
+    Order.find({ orderId: existUser._id }).populate("orderId").populate('product.id'), 
+    query
+  )
+    .search(searchOrderFields)
+    .filter()
+    .sort()
+    .pagination()
+    .fields();
+  const meta = await orderQuery.countTotal();
+  const data = await orderQuery.modelQuery;
+
+  return { meta, data };
+};
+
 
 // ✅ Get Single Order by ID
 const getOrderByIdDB = async (id: string) => {
@@ -73,6 +99,7 @@ const getOrderByIdDB = async (id: string) => {
 export const orderServices = {
   createOrderDB,
   updateOrderDB,
+  getMyOrdersDB,
   deleteOrderDB,
   getAllOrdersDB,
   getOrderByIdDB,

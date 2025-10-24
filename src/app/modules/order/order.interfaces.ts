@@ -1,4 +1,5 @@
-import { Schema, model, Types } from "mongoose";
+import { Types } from "mongoose";
+
 
 interface Address {
   address: string;

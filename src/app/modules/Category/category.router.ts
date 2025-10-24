@@ -30,6 +30,6 @@ router.delete("/:id", auth(userRole.admin), categoryController.deleteCategory);
 router.get("/", categoryController.getAllCategories);
 
 // ✅ Get single category by ID (public)
-router.get("/:id", categoryController.getCategoryById);
+router.get("/:id",  categoryController.getCategoryById);
 
 export const categoryRouter = router;

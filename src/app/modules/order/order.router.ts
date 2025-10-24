@@ -30,6 +30,7 @@ router.delete("/:id", auth(userRole.admin, userRole.user), orderController.delet
 
 // ✅ Get all orders (admin can see all, user can see their own)
 router.get("/", auth(userRole.admin, userRole.user), orderController.getAllOrders);
+router.get("/my-order", auth(userRole.admin, userRole.user), orderController.getMyOrders);
 
 // ✅ Get single order by ID (admin can see any, user can see their own)
 router.get("/:id", auth(userRole.admin, userRole.user), orderController.getOrderById);

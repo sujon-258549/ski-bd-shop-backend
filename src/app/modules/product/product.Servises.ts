@@ -12,6 +12,7 @@ const createProductDB = async (payload: TProduct) => {
 
 // ✅ Update Product
 const updateProductDB = async (id: string, payload: Partial<TProduct>) => {
+  console.log(payload)
   const result = await Product.findByIdAndUpdate(id, payload, {
     new: true, // return updated document
     runValidators: true,
@@ -33,7 +34,7 @@ const deleteProductDB = async (productId: string) => {
 
 // ✅ Get All Products (with filters, search, pagination, sorting)
 const getAllProductsDB = async (query: Record<string, unknown>) => {
-  const productQuery = new QueryBalder(Product.find().populate("categories"), query)
+  const productQuery = new QueryBalder(Product.find().populate("category"), query)
     .search(searchProductFields)
     .filter()
     .sort()
