@@ -26,10 +26,11 @@ const blockUserAdmin = catchAsync(async (req, res) => {
 const blogDeleteAdmin = catchAsync(async (req, res) => {
   const { id } = req.params;
   const result = await userServices.blogDeleteAdminIntoDB(id);
-  sendSuccessNoData(res, {
+  sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blog deleted successfully',
+    data:result
   });
 });
 const getMe = catchAsync(async (req, res) => {
