@@ -48,7 +48,7 @@ const getAllProductsDB = async (query: Record<string, unknown>) => {
 
 // ✅ Get Single Product by ID
 const getProductByIdDB = async (id: string) => {
-  const result = await Product.findById(id).populate("categories");
+  const result = await Product.findById(id).populate("category");
   if (!result) {
     throw new Error("Product not found.");
   }

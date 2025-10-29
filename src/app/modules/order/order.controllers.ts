@@ -1,15 +1,27 @@
-import sendSuccess, { sendSuccessNoData } from "../utility/send-seccess";
-import httpStatus from "http-status";
-import catchAsync from "../utility/catchAsync";
-import { orderServices } from "./order.Servises";
+import sendSuccess, { sendSuccessNoData } from '../utility/send-seccess';
+import httpStatus from 'http-status';
+import catchAsync from '../utility/catchAsync';
+import { orderServices } from './order.Servises';
 
 // ✅ Create Order
 const createOrder = catchAsync(async (req, res) => {
   const result = await orderServices.createOrderDB(req.body, req.user);
   sendSuccess(res, {
     success: true,
-    message: "Order created successfully",
+    message: 'Order created successfully',
     statusCode: httpStatus.CREATED,
+    data: result,
+  });
+});
+
+const updateOrderStatus = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await orderServices.updateOrderDB(id, req.body);
+
+  sendSuccess(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Order updated successfully',
     data: result,
   });
 });
@@ -21,7 +33,7 @@ const updateOrder = catchAsync(async (req, res) => {
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Order updated successfully",
+    message: 'Order updated successfully',
     data: result,
   });
 });
@@ -33,7 +45,7 @@ const deleteOrder = catchAsync(async (req, res) => {
   sendSuccessNoData(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Order deleted successfully",
+    message: 'Order deleted successfully',
   });
 });
 
@@ -43,7 +55,7 @@ const getAllOrders = catchAsync(async (req, res) => {
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Orders fetched successfully",
+    message: 'Orders fetched successfully',
     data: result.data,
     meta: result.meta,
   });
@@ -53,7 +65,7 @@ const getMyOrders = catchAsync(async (req, res) => {
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "My Orders fetched successfully",
+    message: 'My Orders fetched successfully',
     data: result.data,
     meta: result.meta,
   });
@@ -66,7 +78,7 @@ const getOrderById = catchAsync(async (req, res) => {
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: "Order fetched successfully",
+    message: 'Order fetched successfully',
     data: result,
   });
 });
@@ -77,5 +89,6 @@ export const orderController = {
   deleteOrder,
   getAllOrders,
   getOrderById,
-  getMyOrders
+  getMyOrders,
+  updateOrderStatus
 };
