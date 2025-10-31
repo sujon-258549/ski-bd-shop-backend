@@ -5,7 +5,7 @@ import { orderServices } from './order.Servises';
 
 // ✅ Create Order
 const createOrder = catchAsync(async (req, res) => {
-  const result = await orderServices.createOrderDB(req.body, req.user);
+  const result = await orderServices.createOrderDB(req.body);
   sendSuccess(res, {
     success: true,
     message: 'Order created successfully',

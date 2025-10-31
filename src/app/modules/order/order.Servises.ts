@@ -7,17 +7,9 @@ import { Order } from './order.Model';
 const searchOrderFields = ['address.address', 'address.district'];
 
 // ✅ Create Order
-const createOrderDB = async (payload: TOrder, user: any) => {
-  console.log(payload);
-  const existUser = await User.findOne({
-    email: user.email,
-  });
+const createOrderDB = async (payload: TOrder) => {
 
-  if (!existUser) {
-    throw new AppError(httpStatus.NOT_FOUND, 'user not found');
-  }
 
-  payload.orderId = existUser._id;
   // payload.product = existUser._id
   const result = await Order.create(payload);
   return result;
