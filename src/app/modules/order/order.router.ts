@@ -51,7 +51,7 @@ router.get(
 // ✅ Get single order by ID (admin can see any, user can see their own)
 router.get(
   '/:id',
-  auth(userRole.admin, userRole.user),
+  auth(userRole.admin),
   orderController.getOrderById,
 );
 

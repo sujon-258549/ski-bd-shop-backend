@@ -8,8 +8,6 @@ const searchOrderFields = ['address.address', 'address.district'];
 
 // ✅ Create Order
 const createOrderDB = async (payload: TOrder) => {
-
-
   // payload.product = existUser._id
   const result = await Order.create(payload);
   return result;
@@ -52,6 +50,7 @@ const deleteOrderDB = async (id: string) => {
 
 // ✅ Get All Orders (filters, search, pagination)
 const getAllOrdersDB = async (query: Record<string, unknown>) => {
+  console.log('Query Params:', query);
   const orderQuery = new QueryBalder(
     Order.find().populate('product.id'), // 👈 populate nested path
     query,
@@ -78,9 +77,7 @@ const getMyOrdersDB = async (query: Record<string, unknown>, user: any) => {
 
   // orderId দিয়ে order খোঁজা
   const orderQuery = new QueryBalder(
-    Order.find({ orderId: existUser._id })
-      .populate('orderId')
-      .populate('product.id'),
+    Order.find({ orderId: existUser._id }).populate('product.id'),
     query,
   )
     .search(searchOrderFields)
@@ -96,7 +93,7 @@ const getMyOrdersDB = async (query: Record<string, unknown>, user: any) => {
 
 // ✅ Get Single Order by ID
 const getOrderByIdDB = async (id: string) => {
-  const result = await Order.findById(id);
+  const result = await Order.findById(id).populate('product.id');
   if (!result) {
     throw new Error('Order not found.');
   }

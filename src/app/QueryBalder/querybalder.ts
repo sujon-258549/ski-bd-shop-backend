@@ -45,22 +45,17 @@ class QueryBalder<T> {
     const sortBy =
       this.query.sortBy && typeof this.query.sortBy === 'string'
         ? this.query.sortBy
-        : 'createdAt'; // Default to 'createdAt' if no sortBy query
+        : 'createdAt'; // Default: 'createdAt'
 
-    // Get the 'sortOrder' from the query or default to ascending order
-    const sortOrder =
-      this.query.sortOrder &&
-        typeof this.query.sortOrder === 'string' &&
-        this.query.sortOrder.toLowerCase() === 'desc'
-        ? -1
-        : 1; // Default to ascending order if sortOrder is not 'desc'
+    // Descending order: newest first
+    const sortOrder = -1; // -1 means descending
 
-    // Log the sorting parameters for debugging
+    // Debug
     console.log('Sorting by:', sortBy, 'Order:', sortOrder);
 
-    // Apply sorting to the database query
+    // Apply sorting
     this.modelQuery = this.modelQuery.sort({ [sortBy]: sortOrder });
-    return this; // Enable method chaining
+    return this; // Enable chaining
   }
 
   pagination() {

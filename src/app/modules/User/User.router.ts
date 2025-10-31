@@ -16,10 +16,10 @@ router.patch(
   auth('admin'),
   userController.blockUserAdmin,
 );
-router.patch('/update-me', auth('admin'), userController.updateUser);
+router.patch('/update', auth('admin'), userController.updateUser);
 
 router.patch(
-  '/me/change-password',
+  '/change-password',
   auth('admin'),
   userController.updatePassword,
 );

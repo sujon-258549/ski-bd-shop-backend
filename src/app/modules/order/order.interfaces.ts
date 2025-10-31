@@ -2,7 +2,7 @@ import { Types } from 'mongoose';
 
 interface Address {
   address: string;
-  district: string;
+  district?: string;
 }
 interface Customer {
   name: string;

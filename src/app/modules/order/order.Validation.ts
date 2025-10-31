@@ -11,7 +11,6 @@ export const createOrderValidationSchema = z.object({
     ).min(1, "At least one product is required"),
     address: z.object({
       address: z.string().min(1, "Address is required"),
-      district: z.string().min(1, "District is required"),
     }),
     totalAmount: z.number().min(0, "Total amount must be positive"),
     deliveryStatus: z.boolean().optional(),

@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 import { TOrder } from './order.interfaces';
 const AddressSchema = new Schema({
   address: { type: String, required: true },
-  district: { type: String, required: true },
+  district: { type: String },
 });
 const customerSchema = new Schema({
   name: { type: String, required: true },

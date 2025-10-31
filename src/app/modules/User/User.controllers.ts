@@ -64,6 +64,7 @@ const getMe = catchAsync(async (req, res) => {
   });
 });
 const updateUser = catchAsync(async (req, res) => {
+  console.log("user DAta",req.body)
   const { email } = req.user; // Logged-in user’s email
   const updateData = req.body;
 

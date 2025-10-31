@@ -52,25 +52,22 @@ const changePasswordService = async (
   newPassword: string,
 ) => {
   // Step 1: Find user by email
-  const user = await User.findOne({ email: email });
-  if (!user) {
-    throw new Error('User not found');
-  }
+  const user = await User.findOne({ email });
+  if (!user) throw new Error('User not found');
 
   // Step 2: Check old password
   const isMatch = await bcrypt.compare(oldPassword, user.password);
-  if (!isMatch) {
-    throw new Error('Old password is incorrect');
-  }
+  if (!isMatch) throw new Error('Old password is incorrect');
 
-  // Step 3: Hash and set new password
+  // Step 3: Hash new password
   const hashedPassword = await bcrypt.hash(newPassword, 10);
-  user.password = hashedPassword;
 
-  // Step 4: Save updated user
-  await user.save();
+  // Step 4: Direct update in DB
+  await User.updateOne(
+    { email }, // filter
+    { $set: { password: hashedPassword } }, // update
+  );
 
-  // Step 5: Return success message
   return {
     message: 'Password updated successfully',
   };
@@ -89,25 +86,68 @@ const blogDeleteAdminIntoDB = async (id: string) => {
 };
 
 const adminDashBoard = async () => {
-  const product = await Product.find();
-  const category = await Category.find();
-  const user = await User.find({ role: 'user' });
+  try {
+    // Fetch all products, categories, users, and orders
+    const product = await Product.find();
+    const category = await Category.find();
+    const user = await User.find({ role: 'user' });
+    const orders = await Order.find();
 
-  const productLength = product.length;
-  const categoryLength = category.length;
-  const userLength = user.length;
+    // Counts
+    const productLength = product.length;
+    const categoryLength = category.length;
+    const userLength = user.length;
+    const totalOrders = orders.length;
 
-  const orders = await Order.find();
+    // Order statuses
+    const pendingOrders = orders.filter((order) => !order.isAccepted).length; // Not accepted yet
+    const processingOrders = orders.filter(
+      (order) => order.isAccepted && !order.deliveryStatus,
+    ).length; // Accepted but not delivered
+    const deliveredOrders = orders.filter(
+      (order) => order.deliveryStatus === true,
+    ).length; // Successfully delivered
 
-  const totalQuantity = orders.reduce((sum, order) => {
-    const productSum = order.product.reduce(
-      (acc, item) => acc + Number(item.orderQuantity),
+    // Total product quantity
+    const totalQuantity = orders.reduce((sum, order) => {
+      const productSum = order.product?.reduce(
+        (acc, item) => acc + Number(item.orderQuantity || 0),
+        0,
+      );
+      return sum + (productSum || 0);
+    }, 0);
+
+    // Total revenue
+    const totalRevenue = orders.reduce(
+      (sum, order) => sum + Number(order.totalAmount || 0),
       0,
     );
-    return sum + productSum;
-  }, 0);
 
-  return { productLength, categoryLength, userLength, totalQuantity };
+    return {
+      productLength,
+      categoryLength,
+      userLength,
+      totalOrders,
+      pendingOrders,
+      processingOrders,
+      deliveredOrders,
+      totalQuantity,
+      totalRevenue,
+    };
+  } catch (error) {
+    console.error('Error fetching admin dashboard data:', error);
+    return {
+      productLength: 0,
+      categoryLength: 0,
+      userLength: 0,
+      totalOrders: 0,
+      pendingOrders: 0,
+      processingOrders: 0,
+      deliveredOrders: 0,
+      totalQuantity: 0,
+      totalRevenue: 0,
+    };
+  }
 };
 
 export const userServices = {
