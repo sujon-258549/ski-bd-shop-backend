@@ -16,21 +16,16 @@ router.patch(
   auth('admin'),
   userController.blockUserAdmin,
 );
-router.get(
-  '/me',
-  auth('admin', "user"),
-  userController.getMe,
-);
-router.get(
-  '/',
-  auth('admin', ),
-  userController.allUser,
-);
-router.get(
-  '/admin',
+router.patch('/update-me', auth('admin'), userController.updateUser);
+
+router.patch(
+  '/me/change-password',
   auth('admin'),
-  userController.adminDashboard,
+  userController.updatePassword,
 );
+router.get('/me', auth('admin'), userController.getMe);
+router.get('/', auth('admin'), userController.allUser);
+router.get('/admin', auth('admin'), userController.adminDashboard);
 router.delete(
   '/admin/blogs/:id',
   auth('admin'),

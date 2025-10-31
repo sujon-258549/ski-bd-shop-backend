@@ -13,6 +13,25 @@ const createUser = catchAsync(async (req, res) => {
   });
 });
 
+const updatePassword = catchAsync(async (req, res) => {
+  const { email } = req.user;
+  const { oldPassword, newPassword } = req.body;
+
+  // Service call
+  const result = await userServices.changePasswordService(
+    email,
+    oldPassword,
+    newPassword,
+  );
+
+  sendSuccess(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Password updated successfully',
+    data: result,
+  });
+});
+
 const blockUserAdmin = catchAsync(async (req, res) => {
   const { userId } = req.params;
   const result = await userServices.blockUserAdminIntoDB(userId);
@@ -30,27 +49,41 @@ const blogDeleteAdmin = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Blog deleted successfully',
-    data:result
+    data: result,
   });
 });
 const getMe = catchAsync(async (req, res) => {
   const { email } = req.user;
-  console.log(req.user)
+  console.log(req.user);
   const result = await userServices.getMe(email);
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'My Date Retrieved successfully',
-    data:result
+    data: result,
   });
 });
+const updateUser = catchAsync(async (req, res) => {
+  const { email } = req.user; // Logged-in user’s email
+  const updateData = req.body;
+
+  const result = await userServices.updateUser(email, updateData);
+
+  sendSuccess(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User updated successfully',
+    data: result,
+  });
+});
+
 const allUser = catchAsync(async (req, res) => {
   const result = await userServices.allUser();
   sendSuccess(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'All User Retrieved successfully',
-    data:result
+    data: result,
   });
 });
 const adminDashboard = catchAsync(async (req, res) => {
@@ -59,7 +92,7 @@ const adminDashboard = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Admin Dashboard Data Retrieved successfully',
-    data:result
+    data: result,
   });
 });
 
@@ -69,5 +102,7 @@ export const userController = {
   blogDeleteAdmin,
   getMe,
   adminDashboard,
-  allUser
+  allUser,
+  updatePassword,
+  updateUser
 };

@@ -32,7 +32,7 @@ router.patch(
 // ✅ Delete Order (only admin)
 router.delete(
   '/:id',
-  auth(userRole.admin, userRole.user),
+  auth(userRole.admin),
   orderController.deleteOrder,
 );
 
