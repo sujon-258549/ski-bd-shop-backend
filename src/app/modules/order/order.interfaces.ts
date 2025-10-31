@@ -17,7 +17,7 @@ interface ProductItem {
 export interface TOrder {
   orderId: Types.ObjectId;
   product: ProductItem[];
-  address: Address;
+  address?: Address;
   customer: Customer;
   totalAmount: number;
   deliveryStatus: boolean;
