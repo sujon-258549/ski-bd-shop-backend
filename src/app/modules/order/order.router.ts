@@ -11,7 +11,6 @@ const router = Router();
 // ✅ Create Order (admin or user can create)
 router.post(
   '/',
-  auth(userRole.admin, userRole.user),
   // zodValidation(orderValidation.createOrderValidationSchema),
   orderController.createOrder,
 );
