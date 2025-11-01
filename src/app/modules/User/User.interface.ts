@@ -7,6 +7,7 @@ export interface TUser {
   password: string;
   phoneNumber: string;
   profileImage: string;
+  passwordChangeAt?: string;
   role?: 'admin' | 'user';
   isBlocked: boolean;
 }

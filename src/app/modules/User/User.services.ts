@@ -65,7 +65,7 @@ const changePasswordService = async (
   // Step 4: Direct update in DB
   await User.updateOne(
     { email }, // filter
-    { $set: { password: hashedPassword } }, // update
+    { $set: { password: hashedPassword, passwordChangeAt: new Date() } }, // update
   );
 
   return {

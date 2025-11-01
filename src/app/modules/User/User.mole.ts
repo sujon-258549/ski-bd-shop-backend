@@ -38,6 +38,10 @@ const UserSchema = new Schema<TUser, UserModel>(
       type: Boolean,
       default: false,
     },
+    passwordChangeAt: {
+      type: String,
+    },
+    
   },
   {
     timestamps: true, // Automatically adds createdAt and updatedAt fields
